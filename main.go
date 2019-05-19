@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
 	"log"
@@ -18,33 +17,15 @@ type Episode struct {
 	Title    string
 }
 
-var copy bool
-var keep bool
-var original bool
-var pattern string
-var recursive bool
-
-func init() {
-	flag.BoolVar(&original, "o", false, "")
-	flag.StringVar(&pattern, "p", "%d - %s", "")
-	flag.BoolVar(&recursive, "r", false, "")
-}
-
 func main() {
 	flag.Parse()
 	wd := workingDir(flag.Args())
 
-	stdin := bufio.NewReader(os.Stdin)
-
 	episodes := []Episode{}
 	fmt.Println("Please enter the episode number of each file.")
 	for _, file := range listFiles(wd, recursive) {
-		fmt.Printf("%s\n> ", file)
-		str, err := stdin.ReadString('\n')
-		if err != nil {
-			log.Fatal(err)
-		}
-		str = strings.TrimSpace(str)
+		fmt.Println(file)
+		str := input("> ")
 		if str == "--" {
 			break
 		}
@@ -61,12 +42,7 @@ func main() {
 	sort.Slice(episodes, func(i, j int) bool { return episodes[i].Number < episodes[j].Number })
 	fmt.Println("Please enter the episode title for each file.")
 	for i, ep := range episodes {
-		fmt.Printf("Episode %d: ", ep.Number)
-		str, err := stdin.ReadString('\n')
-		if err != nil {
-			log.Fatal(err)
-		}
-		str = strings.TrimSpace(str)
+		str := input(fmt.Sprintf("Episode %d: ", ep.Number))
 		if !original {
 			str = correctFilename(str)
 		}
