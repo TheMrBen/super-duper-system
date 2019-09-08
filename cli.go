@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-var copy bool
+var makeCopy bool
 var keep bool
 var original bool
 var pattern string

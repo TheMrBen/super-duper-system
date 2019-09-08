@@ -11,17 +11,29 @@ import (
 	"strings"
 )
 
-type Episode struct {
+type Episode2 struct {
 	Filename string
 	Number   int
 	Title    string
 }
 
 func main() {
+	//s, err := Search("Rick and Morty")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//series := s[0]
+	//ep, err := GetEpisode(series, 2, 4)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//fmt.Println(series.SeriesName, "- s02e04 -", ep.EpisodeName)
+	//return
+
 	flag.Parse()
 	wd := workingDir(flag.Args())
 
-	episodes := []Episode{}
+	episodes := []Episode2{}
 	fmt.Println("Please enter the episode number of each file.")
 	for _, file := range listFiles(wd, recursive) {
 		fmt.Println(file)
@@ -34,7 +46,7 @@ func main() {
 			if err != nil {
 				log.Fatal(err)
 			}
-			ep := Episode{Filename: filepath.Join(wd, file), Number: number}
+			ep := Episode2{Filename: filepath.Join(wd, file), Number: number}
 			episodes = append(episodes, ep)
 		}
 	}
